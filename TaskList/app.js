@@ -12,6 +12,12 @@ loadEventListeners();
 function loadEventListeners(){
     //Add task event
     form.addEventListener("submit", addTask);
+    //Remove task event
+    taskList.addEventListener("click", removeTask);
+    //Clear task event
+    clearBtn.addEventListener("click", clearTasks);
+    //Filter tasks
+    filter.addEventListener("keyup", filterTasks);
 }
 
 //Add task
@@ -38,4 +44,38 @@ function addTask(e){
     taskInput.value = "";
 
     e.preventDefault();
+}
+
+//Remove Task - Clear input
+function removeTask(e){
+    if(e.target.parentElement.classList.contains("delete-item")) {
+        if(confirm("Are You Sure?")){
+            e.target.parentElement.parentElement.remove();
+        }
+    }
+}
+
+//Clear all tasks
+function clearTasks(){
+    //taskList.innerHTML = "";
+
+    //Faster
+    while(taskList.firstChild){
+        taskList.removeChild(taskList.firstChild);
+    }
+}
+
+//Filter Tasks
+function filterTasks(e){
+    const text = e.target.value.toLowerCase();
+     //we can use forEach bc querySelectorAll returns a node list. If we use getElementsbyClass that will return an HTML collection which we'll have to turn into an array in order to use forEach
+    document.querySelectorAll(".collection-item").forEach
+    (function(task){
+        const item = task.firstChild.textContent;
+        if(item.toLowerCase().indexOf(text) != -1){    //if there's no match it'll equal -1
+            task.style.display = "block";
+        }else{
+            task.style.display = "none";
+        }
+    })
 }
